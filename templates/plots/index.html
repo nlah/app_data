@@ -1,0 +1,143 @@
+{% extends 'adminlte/base.html' %}
+{% block javascript %}
+{% include 'adminlte/lib/_scripts.html' %}
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+
+        <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+ <!--- some scripts that apply to all pages -->
+        <script>
+            $(document).ready(function() {
+            $('#example').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax:{
+                    url: "{% url 'data_array' %}",
+                    "type": "GET"
+                } ,
+                columns: [
+                      {data: 'upc'},
+                      {data: 'salePrice'},
+                      {data: 'name'},
+                      {data: 'brandName'},
+                      {data: 'modelNumber'},
+                      {data: 'largeImage'},
+                      {data: 'stock'},
+                      {data: 'freeShippingOver50Dollars'},
+                      {data: 'date_modified'}
+                ],
+            });
+            })
+        </script>
+{% endblock %}
+{% block title %}My App{% endblock %}
+{% block content %}
+
+        <div class="row">
+            <div class="col-xs-12">
+              <div class="box box-default">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Modal Examples</h3>
+                </div>
+                <div class="box-body">
+                  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-add">
+                    Add upc
+                  </button>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-delete">
+                    Delete upc
+                  </button>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-add-csv">
+                    Add csv file upc
+                  </button>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="modal modal-success fade" id="modal-add" style="display: none;">
+            <form action="{% url 'add_upc' %}" method="GET">
+
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title">Success Modal</h4>
+                      </div>
+                      <div class="modal-body">
+                          <div class="form-group has-feedback">
+                              <input name="upc" placeholder="upc" required="true" class="form-control">
+                              <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                          </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-outline">Save changes</button>
+                      </div>
+                    </div>
+                    <!-- /.modal-content -->
+                  </div>
+                 </form>
+                  <!-- /.modal-dialog -->
+                </div>
+        <div class="modal modal-success fade" id="modal-delete" style="display: none;">
+            <form action="{% url 'del_upc' %}" method="GET">
+
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title">Success Modal</h4>
+                      </div>
+                      <div class="modal-body">
+                          <div class="form-group has-feedback">
+                              <input name="delete" placeholder="upc" required="true" class="form-control">
+                              <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                          </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-outline">Save changes</button>
+                      </div>
+                    </div>
+                    <!-- /.modal-content -->
+                  </div>
+                 </form>
+                  <!-- /.modal-dialog -->
+                </div>
+
+        <div class="modal modal-success fade" id="modal-add-csv" style="display: none;">
+            <form action="{% url 'add_file_csv' %}" enctype="multipart/form-data" method="POST">
+                {% csrf_token %}
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title">Success Modal</h4>
+                      </div>
+                      <div class="modal-body">
+                          <div class="form-group has-feedback">
+                                      <input type="file" name="file" id="file">
+                          </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-outline">Save changes</button>
+                      </div>
+                    </div>
+                    <!-- /.modal-content -->
+                  </div>
+                 </form>
+                  <!-- /.modal-dialog -->
+                </div>
+
+              <table id="example" class="display">
+                  <thead>
+                      <tr>
+                          {% for key in product_header %}
+                          <th>{{ key }}</th>
+                          {% endfor %}
+                      </tr>
+                  </thead>
+              </table>
+{% endblock %}
