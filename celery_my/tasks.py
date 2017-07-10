@@ -5,6 +5,7 @@ clarity, consistency, and a foundation for good programming habits too.
 What it doesn't do is insist that you follow it against your will. That's Python!"
 —Tim Peters on comp.lang.python, 2001-06-16
 """
+import datetime
 from pymongo import MongoClient
 from plots.upc import UpcWalmart
 from . celery import app
@@ -18,4 +19,4 @@ def add():
     Update the database on upc
     """
     walmart = UpcWalmart(app.conf['CELERY_WALMART_KEY'])
-    walmart.update(WalmartModel.objects, timezone)
+    walmart.update(WalmartModel.objects, datetime.datetime)
