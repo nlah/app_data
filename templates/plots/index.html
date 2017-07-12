@@ -11,8 +11,9 @@
                 processing: true,
                 serverSide: true,
                 ajax:{
-                    url: "{% url 'data_array' %}",
-                    "type": "GET"
+                    data:{csrfmiddlewaretoken :'{{ csrf_token }}'},
+                    url:  "{% url 'data_array' %}",
+                    "type": "POST"
                 } ,
                 columns: [
                       {data: 'upc'},

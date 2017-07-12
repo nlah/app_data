@@ -1,5 +1,10 @@
 celerybeat-schedule
 settings_local.py
+test.py
+get-pip.py
+uwsgi_params
+mysite_nginx.conf
+mysite.sock
 __pycache__
 db.sqlite3
 ### JetBrains template

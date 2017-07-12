@@ -54,11 +54,11 @@ def data_array(request):
                 return str(o)
             return json.JSONEncoder.default(self, o)
 
-    draw = int(request.GET['draw'], base=0) + 1
+    draw = int(request.POST['draw'], base=0) + 1
     user = User(request.user)
-    data = user.get_upc_limit_sort(int(request.GET['start']), int(request.GET['length']),\
-                                   request.GET['columns[' + request.GET['order[0][column]'] + '][data]'],\
-                                   (-1, 1)[request.GET['order[0][dir]'] == 'asc'])
+    data = user.get_upc_limit_sort(int(request.POST['start']), int(request.POST['length']),\
+                                   request.POST['columns[' + request.POST['order[0][column]'] + '][data]'],\
+                                   (-1, 1)[request.POST['order[0][dir]'] == 'asc'])
     data = json.dumps({"draw": draw,
                        "recordsTotal": user.count_upc(),
                        "recordsFiltered": user.count_upc(),
